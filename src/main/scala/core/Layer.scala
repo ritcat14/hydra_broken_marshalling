@@ -25,7 +25,7 @@ trait Marshalling[T <: GeneratedMessage, E <: GeneratedMessage] extends DefaultJ
   implicit def requestMarshaller(implicit companion: GeneratedMessageCompanion[T]): FromEntityUnmarshaller[T] = {
     Unmarshaller.byteArrayUnmarshaller.map[T](bytes => companion.parseFrom(bytes))
   }
-
+// unmarshaller that works without wildcards
 //  implicit def requestMarshaller2(implicit companion: GeneratedMessageCompanion[TestRequest]): FromEntityUnmarshaller[TestRequest] = {
 //    Unmarshaller.byteArrayUnmarshaller.map[TestRequest](bytes => companion.parseFrom(bytes))
 //  }
@@ -49,6 +49,7 @@ abstract class Layer[T <: GeneratedMessage, E <: GeneratedMessage](name: String,
     pathPrefix("test") {
       path(directivePath) {
         post {
+          // works when using TestRequest as type and above requestUnmarshaller2
           entity(as[/*TestRequest*/T]) { request =>
             onComplete(handle(request)) {
               case Success(response) =>
