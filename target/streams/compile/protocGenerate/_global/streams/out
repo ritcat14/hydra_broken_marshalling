@@ -1,0 +1,5 @@
+[debug] Invalidating cache (input changed)
+[info] Compiling 2 protobuf files to F:\JetBrains Projects\Java\hydra_broken_marshalling\target\scala-3.3.1\src_managed\main\scalapb
+[debug] protoc options:
+[debug] Compiling schema F:\JetBrains Projects\Java\hydra_broken_marshalling\src\main\protobuf\TestRequest.proto
+[debug] Compiling schema F:\JetBrains Projects\Java\hydra_broken_marshalling\src\main\protobuf\TestResponse.proto

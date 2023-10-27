@@ -1,0 +1,80 @@
+[debug] > Exec(compile, None, None)
+[debug] Evaluating tasks: Compile / compile
+[debug] Running task... Cancel: Signal, check cycles: false, forcegc: true
+[info] Compiling 2 protobuf files to F:\JetBrains Projects\Java\hydra_broken_marshalling\target\scala-3.3.1\src_managed\main\scalapb
+[info] compiling 8 Scala sources to F:\JetBrains Projects\Java\hydra_broken_marshalling\target\scala-3.3.1\classes ...
+[error] -- [E006] Not Found Error: F:\JetBrains Projects\Java\hydra_broken_marshalling\src\main\scala\core\DataLayer.scala:10:30 
+[error] 10 |class DataLayer extends Layer[Request, Response]("data_actor", "data") {
+[error]    |                              ^^^^^^^
+[error]    |                              Not found: type Request
+[error]    |
+[error]    | longer explanation available when compiling with `-explain`
+[error] -- [E006] Not Found Error: F:\JetBrains Projects\Java\hydra_broken_marshalling\src\main\scala\core\DataLayer.scala:10:39 
+[error] 10 |class DataLayer extends Layer[Request, Response]("data_actor", "data") {
+[error]    |                                       ^^^^^^^^
+[error]    |                                       Not found: type Response
+[error]    |
+[error]    | longer explanation available when compiling with `-explain`
+[error] -- [E006] Not Found Error: F:\JetBrains Projects\Java\hydra_broken_marshalling\src\main\scala\core\DataLayer.scala:12:43 
+[error] 12 |  override def apply(): Behavior[MessageIn[Request, Response]] = super.apply()
+[error]    |                                           ^^^^^^^
+[error]    |                                           Not found: type Request
+[error]    |
+[error]    | longer explanation available when compiling with `-explain`
+[error] -- [E006] Not Found Error: F:\JetBrains Projects\Java\hydra_broken_marshalling\src\main\scala\core\DataLayer.scala:12:52 
+[error] 12 |  override def apply(): Behavior[MessageIn[Request, Response]] = super.apply()
+[error]    |                                                    ^^^^^^^^
+[error]    |                                                Not found: type Response
+[error]    |
+[error]    | longer explanation available when compiling with `-explain`
+[error] -- [E006] Not Found Error: F:\JetBrains Projects\Java\hydra_broken_marshalling\src\main\scala\core\DataLayer.scala:14:38 
+[error] 14 |  override def handleMessage(message: Request): MessageOut[Response] = {
+[error]    |                                      ^^^^^^^
+[error]    |                                      Not found: type Request
+[error]    |
+[error]    | longer explanation available when compiling with `-explain`
+[error] -- [E006] Not Found Error: F:\JetBrains Projects\Java\hydra_broken_marshalling\src\main\scala\core\DataLayer.scala:14:59 
+[error] 14 |  override def handleMessage(message: Request): MessageOut[Response] = {
+[error]    |                                                           ^^^^^^^^
+[error]    |                                                Not found: type Response
+[error]    |
+[error]    | longer explanation available when compiling with `-explain`
+[error] -- [E006] Not Found Error: F:\JetBrains Projects\Java\hydra_broken_marshalling\src\main\scala\core\DataLayer.scala:15:15 
+[error] 15 |    MessageOut(Response())
+[error]    |               ^^^^^^^^
+[error]    |               Not found: Response
+[error]    |
+[error]    | longer explanation available when compiling with `-explain`
+[error] -- [E172] Type Error: F:\JetBrains Projects\Java\hydra_broken_marshalling\src\main\scala\core\Layer.scala:46:22 
+[error] 46 |          entity(as[T]) { request =>
+[error]    |                      ^
+[error]    |No given instance of type akka.http.scaladsl.unmarshalling.FromRequestUnmarshaller[T] was found for parameter um of method as in trait MarshallingDirectives.
+[error]    |I found:
+[error]    |
+[error]    |    akka.http.scaladsl.unmarshalling.Unmarshaller.
+[error]    |      messageUnmarshallerFromEntityUnmarshaller[T](
+[error]    |      this.sprayJsonUnmarshaller[T](
+[error]    |        /* missing */summon[spray.json.RootJsonReader[T]])
+[error]    |    )
+[error]    |
+[error]    |But no implicit values were found that match type spray.json.RootJsonReader[T]
+[error]    |
+[error]    |where:    T is a type in class Layer with bounds <: scalapb.GeneratedMessage
+[error]    |.
+[error] -- [E008] Not Found Error: F:\JetBrains Projects\Java\hydra_broken_marshalling\src\main\scala\core\Layer.scala:61:16 
+[error] 61 |    systemActor.ask(MessageIn(message, _))
+[error]    |    ^^^^^^^^^^^^^^^
+[error]    |value ask is not a member of akka.actor.typed.ActorRef[core.MessageIn[T, E]], but could be made available as an extension method.
+[error]    |
+[error]    |The following import might fix the problem:
+[error]    |
+[error]    |  import akka.actor.typed.scaladsl.AskPattern.Askable
+[error]    |
+[error]    |
+[error]    |
+[error]    |where:    E is a type in class Layer with bounds <: scalapb.GeneratedMessage
+[error]    |          T is a type in class Layer with bounds <: scalapb.GeneratedMessage
+[error] 9 errors found
+[error] (Compile / compileIncremental) Compilation failed
+[error] Total time: 2 s, completed 27 Oct 2023, 10:53:25
+[debug] > Exec(idea-shell, None, None)

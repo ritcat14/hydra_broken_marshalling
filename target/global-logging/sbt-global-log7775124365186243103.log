@@ -1,0 +1,131 @@
+[debug] > Exec(compile, None, None)
+[debug] Evaluating tasks: Compile / compile
+[debug] Running task... Cancel: Signal, check cycles: false, forcegc: true
+[info] Compiling 2 protobuf files to F:\JetBrains Projects\Java\hydra_broken_marshalling\target\scala-3.3.1\src_managed\main\scalapb
+[info] compiling 8 Scala sources to F:\JetBrains Projects\Java\hydra_broken_marshalling\target\scala-3.3.1\classes ...
+[error] -- [E006] Not Found Error: F:\JetBrains Projects\Java\hydra_broken_marshalling\src\main\scala\DataLayer.scala:8:7 
+[error] 8 |import protobuf.Request.Request
+[error]   |       ^^^^^^^^
+[error]   |       Not found: protobuf
+[error]   |
+[error]   | longer explanation available when compiling with `-explain`
+[error] -- [E006] Not Found Error: F:\JetBrains Projects\Java\hydra_broken_marshalling\src\main\scala\DataLayer.scala:9:7 
+[error] 9 |import protobuf.Response.Response
+[error]   |       ^^^^^^^^
+[error]   |       Not found: protobuf
+[error]   |
+[error]   | longer explanation available when compiling with `-explain`
+[error] -- [E049] Reference Error: F:\JetBrains Projects\Java\hydra_broken_marshalling\src\main\scala\Layer.scala:29:94 
+[error] 29 |final case class MessageIn[T <: GeneratedMessage, E <: GeneratedMessage](request: T, replyTo: ActorRef[MessageOut[E]])
+[error]    |                                                                                              ^^^^^^^^
+[error]    |      Reference to ActorRef is ambiguous.
+[error]    |      It is both imported by name by import akka.actor.ActorRef
+[error]    |      and imported by name subsequently by import akka.actor.typed.{...}
+[error]    |
+[error]    | longer explanation available when compiling with `-explain`
+[error] -- Error: F:\JetBrains Projects\Java\hydra_broken_marshalling\src\main\scala\Layer.scala:58:24 
+[error] 58 |  def apply(): Behavior[MessageIn] = handle()
+[error]    |                        ^^^^^^^^^
+[error]    |       Type argument MessageIn does not have the same kind as its bound 
+[error] -- [E049] Reference Error: F:\JetBrains Projects\Java\hydra_broken_marshalling\src\main\scala\Layer.scala:38:27 
+[error] 38 |  private var systemActor: ActorRef[MessageIn[T, E]] = null
+[error]    |                           ^^^^^^^^
+[error]    |      Reference to ActorRef is ambiguous.
+[error]    |      It is both imported by name by import akka.actor.ActorRef
+[error]    |      and imported by name subsequently by import akka.actor.typed.{...}
+[error]    |
+[error]    | longer explanation available when compiling with `-explain`
+[error] -- [E172] Type Error: F:\JetBrains Projects\Java\hydra_broken_marshalling\src\main\scala\Layer.scala:46:22 
+[error] 46 |          entity(as[T]) { request =>
+[error]    |                      ^
+[error]    |No given instance of type akka.http.scaladsl.unmarshalling.FromRequestUnmarshaller[T] was found for parameter um of method as in trait MarshallingDirectives.
+[error]    |I found:
+[error]    |
+[error]    |    akka.http.scaladsl.unmarshalling.Unmarshaller.
+[error]    |      messageUnmarshallerFromEntityUnmarshaller[T](
+[error]    |      this.sprayJsonUnmarshaller[T](
+[error]    |        /* missing */summon[spray.json.RootJsonReader[T]])
+[error]    |    )
+[error]    |
+[error]    |But no implicit values were found that match type spray.json.RootJsonReader[T]
+[error]    |
+[error]    |where:    T is a type in class Layer with bounds <: scalapb.GeneratedMessage
+[error]    |.
+[error] -- [E006] Not Found Error: F:\JetBrains Projects\Java\hydra_broken_marshalling\src\main\scala\Layer.scala:60:30 
+[error] 60 |  private def handle(message: ProtoMessage): Future[MessageOut] = {
+[error]    |                              ^^^^^^^^^^^^
+[error]    |                              Not found: type ProtoMessage
+[error]    |
+[error]    | longer explanation available when compiling with `-explain`
+[error] -- Error: F:\JetBrains Projects\Java\hydra_broken_marshalling\src\main\scala\Layer.scala:60:52 
+[error] 60 |  private def handle(message: ProtoMessage): Future[MessageOut] = {
+[error]    |                                                    ^^^^^^^^^^
+[error]    |      Type argument MessageOut does not have the same kind as its bound 
+[error] -- Error: F:\JetBrains Projects\Java\hydra_broken_marshalling\src\main\scala\Layer.scala:64:33 
+[error] 64 |  private def handle(): Behavior[MessageIn] = {
+[error]    |                                 ^^^^^^^^^
+[error]    |       Type argument MessageIn does not have the same kind as its bound 
+[error] -- [E008] Not Found Error: F:\JetBrains Projects\Java\hydra_broken_marshalling\src\main\scala\Layer.scala:61:16 
+[error] 61 |    systemActor.ask(MessageIn(message, _))
+[error]    |    ^^^^^^^^^^^^^^^
+[error]    |value ask is not a member of akka.actor.typed.ActorRef[MessageIn[T, E]], but could be made available as an extension method.
+[error]    |
+[error]    |The following import might fix the problem:
+[error]    |
+[error]    |  import akka.actor.typed.scaladsl.AskPattern.Askable
+[error]    |
+[error]    |
+[error]    |
+[error]    |where:    E is a type in class Layer with bounds <: scalapb.GeneratedMessage
+[error]    |          T is a type in class Layer with bounds <: scalapb.GeneratedMessage
+[error] -- [E007] Type Mismatch Error: F:\JetBrains Projects\Java\hydra_broken_marshalling\src\main\scala\Layer.scala:68:32 
+[error] 68 |        replyTo ! handleMessage(request)
+[error]    |                                ^^^^^^^
+[error]    |Found:    (request : T$1)
+[error]    |Required: T
+[error]    |
+[error]    |where:    T   is a type in class Layer with bounds <: scalapb.GeneratedMessage
+[error]    |          T$1 is a type in an anonymous function in method handle with bounds <: scalapb.GeneratedMessage
+[error]    |
+[error]    |
+[error]    |One of the following imports might make progress towards fixing the problem:
+[error]    |
+[error]    |  import akka.http.impl.util.JavaMapping.Implicits.convertToScala
+[error]    |  import akka.http.javadsl.server.RoutingJavaMapping.Implicits.convertToScala
+[error]    |
+[error]    |
+[error]    | longer explanation available when compiling with `-explain`
+[error] -- [E049] Reference Error: F:\JetBrains Projects\Java\hydra_broken_marshalling\src\main\scala\Layer.scala:74:29 
+[error] 74 |  def getRoutes(systemActor: ActorRef[MessageIn]): Route = {
+[error]    |                             ^^^^^^^^
+[error]    |      Reference to ActorRef is ambiguous.
+[error]    |      It is both imported by name by import akka.actor.ActorRef
+[error]    |      and imported by name subsequently by import akka.actor.typed.{...}
+[error]    |
+[error]    | longer explanation available when compiling with `-explain`
+[error] -- Error: F:\JetBrains Projects\Java\hydra_broken_marshalling\src\main\scala\Layer.scala:74:38 
+[error] 74 |  def getRoutes(systemActor: ActorRef[MessageIn]): Route = {
+[error]    |                                      ^^^^^^^^^
+[error]    |       Type argument MessageIn does not have the same kind as its bound 
+[error] -- [E083] Type Error: F:\JetBrains Projects\Java\hydra_broken_marshalling\src\main\scala\Server.scala:13:11 
+[error] 13 |    import SYSTEM.executionContext
+[error]    |           ^^^^^^
+[error]    |(Server.SYSTEM : akka.actor.typed.ActorSystem[?]) is not a valid import prefix, since it is not an immutable path
+[error]    |
+[error]    | longer explanation available when compiling with `-explain`
+[error] -- [E008] Not Found Error: F:\JetBrains Projects\Java\hydra_broken_marshalling\src\main\scala\Server.scala:38:6 
+[error] 36 |      val routes = systemLayer.
+[error] 37 |      
+[error] 38 |      startHttpServer("localhost", 8080, routes)
+[error]    |                   ^
+[error]    |value startHttpServer is not a member of DataLayer, but could be made available as an extension method.
+[error]    |
+[error]    |One of the following imports might make progress towards fixing the problem:
+[error]    |
+[error]    |  import akka.http.impl.util.JavaMapping.Implicits.convertToScala
+[error]    |  import akka.http.javadsl.server.RoutingJavaMapping.Implicits.convertToScala
+[error]    |
+[error] 15 errors found
+[error] (Compile / compileIncremental) Compilation failed
+[error] Total time: 3 s, completed 27 Oct 2023, 10:42:39
+[debug] > Exec(idea-shell, None, None)

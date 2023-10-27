@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ScalaCompilerConfiguration">
+    <profile name="sbt 1" modules="hydra_broken_marshalling,hydra_broken_playground,hydra_playground" />
+  </component>
+</project>

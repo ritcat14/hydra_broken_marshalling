@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package PROTOS;
+
+option java_package = "core.protobuf";
+
+message TestRequest {
+  string body = 1;
+}
