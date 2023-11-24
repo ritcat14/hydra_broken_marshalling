@@ -18,17 +18,13 @@ import spray.json.DefaultJsonProtocol
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 
-trait Marshalling[T <: GeneratedMessage, E <: GeneratedMessage] extends DefaultJsonProtocol with SprayJsonSupport {
+trait Marshalling[T <: GeneratedMessage, E <: GeneratedMessage] {
 
   implicit def protobufMarshaller: ToEntityMarshaller[E] = PredefinedToEntityMarshallers.ByteArrayMarshaller.compose[E](r => r.toByteArray)
 
-  implicit def requestMarshaller(implicit companion: GeneratedMessageCompanion[T]): FromEntityUnmarshaller[T] = {
+  implicit def protobufUnmarshaller(implicit companion: GeneratedMessageCompanion[T]): FromEntityUnmarshaller[T] = {
     Unmarshaller.byteArrayUnmarshaller.map[T](bytes => companion.parseFrom(bytes))
   }
-// unmarshaller that works without wildcards
-//  implicit def requestMarshaller2(implicit companion: GeneratedMessageCompanion[TestRequest]): FromEntityUnmarshaller[TestRequest] = {
-//    Unmarshaller.byteArrayUnmarshaller.map[TestRequest](bytes => companion.parseFrom(bytes))
-//  }
 
 }
 
@@ -36,7 +32,7 @@ final case class MessageIn[T <: GeneratedMessage, E <: GeneratedMessage](request
 
 final case class MessageOut[E <: GeneratedMessage](response: E)
 
-abstract class Layer[T <: GeneratedMessage, E <: GeneratedMessage](name: String, directivePath: String) 
+abstract class Layer[T <: GeneratedMessage : GeneratedMessageCompanion, E <: GeneratedMessage](name: String, directivePath: String)
   extends CORSHandler with Marshalling[T, E] {
   
   implicit val timeout: Timeout = Timeout.create(SYSTEM.settings.config.getDuration("my-app.routes.ask-timeout"))
@@ -49,8 +45,7 @@ abstract class Layer[T <: GeneratedMessage, E <: GeneratedMessage](name: String,
     pathPrefix("test") {
       path(directivePath) {
         post {
-          // works when using TestRequest as type and above requestUnmarshaller2
-          entity(as[/*TestRequest*/T]) { request =>
+          entity(as[T]) { request =>
             onComplete(handle(request)) {
               case Success(response) =>
                 complete(response.response)

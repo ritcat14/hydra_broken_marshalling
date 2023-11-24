@@ -1,5 +1,3 @@
 [debug] not up to date. inChanged = true, force = false
-[debug] Updating ProjectRef(uri("file:/F:/JetBrains%20Projects/Java/hydra_broken_marshalling/project/"), "hydra_broken_marshalling-build")...
-[warn] Unrecognized repository Scala Plugin Bundled Repository, ignoring it
-[warn] Unrecognized repository Scala Plugin Bundled Repository, ignoring it
-[debug] Done updating ProjectRef(uri("file:/F:/JetBrains%20Projects/Java/hydra_broken_marshalling/project/"), "hydra_broken_marshalling-build")
+[debug] Updating ProjectRef(uri("file:/home/kris/IdeaProjects/HydraServer_V2/project/"), "hydraserver_v2-build")...
+[debug] Done updating ProjectRef(uri("file:/home/kris/IdeaProjects/HydraServer_V2/project/"), "hydraserver_v2-build")
