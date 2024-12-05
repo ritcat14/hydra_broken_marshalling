@@ -3,72 +3,37 @@ package core
 import akka.actor.typed.scaladsl.AskPattern.*
 import akka.actor.typed.scaladsl.Behaviors
 import akka.actor.typed.{ActorRef, Behavior}
-import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import akka.http.scaladsl.marshalling.{PredefinedToEntityMarshallers, ToEntityMarshaller}
-import akka.http.scaladsl.model.StatusCodes.InternalServerError
-import akka.http.scaladsl.server.Directives.{as, complete, entity, onComplete, path, pathPrefix, post}
+import akka.http.scaladsl.model.{HttpRequest, HttpResponse}
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.unmarshalling.{FromEntityUnmarshaller, Unmarshaller}
 import akka.util.Timeout
 import core.Server.SYSTEM
-import core.protobuf.TestRequest.TestRequest
 import scalapb.{GeneratedMessage, GeneratedMessageCompanion}
-import spray.json.DefaultJsonProtocol
 
 import scala.concurrent.Future
-import scala.util.{Failure, Success}
 
-trait Marshalling[T <: GeneratedMessage, E <: GeneratedMessage] extends DefaultJsonProtocol with SprayJsonSupport {
+final case class MessageIn[A, B, C <: A, D <: B](request: C, replyTo: ActorRef[MessageOut[B, D]])
 
-  implicit def protobufMarshaller: ToEntityMarshaller[E] = PredefinedToEntityMarshallers.ByteArrayMarshaller.compose[E](r => r.toByteArray)
+final case class MessageOut[G, E <: G](response: E)
 
-  implicit def requestMarshaller(implicit companion: GeneratedMessageCompanion[T]): FromEntityUnmarshaller[T] = {
-    Unmarshaller.byteArrayUnmarshaller.map[T](bytes => companion.parseFrom(bytes))
-  }
-// unmarshaller that works without wildcards
-//  implicit def requestMarshaller2(implicit companion: GeneratedMessageCompanion[TestRequest]): FromEntityUnmarshaller[TestRequest] = {
-//    Unmarshaller.byteArrayUnmarshaller.map[TestRequest](bytes => companion.parseFrom(bytes))
-//  }
-
-}
-
-final case class MessageIn[T <: GeneratedMessage, E <: GeneratedMessage](request: T, replyTo: ActorRef[MessageOut[E]])
-
-final case class MessageOut[E <: GeneratedMessage](response: E)
-
-abstract class Layer[T <: GeneratedMessage, E <: GeneratedMessage](name: String, directivePath: String) 
-  extends CORSHandler with Marshalling[T, E] {
+abstract class Layer[A, B, C <: A, D <: B](name: String, directivePath: String) extends CORSHandler {
   
   implicit val timeout: Timeout = Timeout.create(SYSTEM.settings.config.getDuration("my-app.routes.ask-timeout"))
 
-  private var systemActor: ActorRef[MessageIn[T, E]] = null
+  private var systemActor: ActorRef[MessageIn[A, B, C, D]] = null
 
-  def handleMessage(request: T): MessageOut[E]
+  def handleMessage(request: C): MessageOut[B, D]
 
-  private def createRoutes(): Route = {
-    pathPrefix("test") {
-      path(directivePath) {
-        post {
-          // works when using TestRequest as type and above requestUnmarshaller2
-          entity(as[/*TestRequest*/T]) { request =>
-            onComplete(handle(request)) {
-              case Success(response) =>
-                complete(response.response)
-              case Failure(exception) => complete(InternalServerError, s"An error occurred ${exception.getMessage}")
-            }
-          }
-        }
-      }
-    }
-  }
+  def createRoutes(directivePath: String) : Route
 
-  def apply(): Behavior[MessageIn[T, E]] = handle()
+  def apply(): Behavior[MessageIn[A, B, C, D]] = handle()
 
-  private def handle(message: T): Future[MessageOut[E]] = {
+  protected def handle(message: C): Future[MessageOut[B, D]] = {
     systemActor.ask(MessageIn(message, _))
   }
 
-  private def handle(): Behavior[MessageIn[T, E]] = {
+  protected def handle(): Behavior[MessageIn[A, B, C, D]] = {
     Behaviors.receiveMessage {
 
       case MessageIn(request, replyTo) =>
@@ -78,10 +43,10 @@ abstract class Layer[T <: GeneratedMessage, E <: GeneratedMessage](name: String,
     }
   }
 
-  def getRoutes(systemActor: ActorRef[MessageIn[T, E]]): Route = {
+  def getRoutes(systemActor: ActorRef[MessageIn[A, B, C, D]]): Route = {
     this.systemActor = systemActor
     corsHandler(
-      createRoutes()
+      createRoutes(directivePath)
     )
   }
 

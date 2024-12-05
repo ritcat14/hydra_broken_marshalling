@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id="root [file:/F:/JetBrains%20Projects/Java/hydra_broken_marshalling/]" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="SBT" type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_20">
+<module external.linked.project.id="root [file:/Users/eli/IdeaProjects/hydra_broken_marshalling/]" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="SBT" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_23">
     <output url="file://$MODULE_DIR$/../../target/scala-3.3.1/classes" />
     <output-test url="file://$MODULE_DIR$/../../target/scala-3.3.1/test-classes" />
     <exclude-output />
@@ -9,13 +9,12 @@
       <sourceFolder url="file://$MODULE_DIR$/../../src/main/scala" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../src/test/scala" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../target/scala-3.3.1/src_managed/main" isTestSource="false" generated="true" />
-      <excludeFolder url="file://$MODULE_DIR$/../../target/global-logging" />
-      <excludeFolder url="file://$MODULE_DIR$/../../target/protobuf_external" />
-      <excludeFolder url="file://$MODULE_DIR$/../../target/streams" />
-      <excludeFolder url="file://$MODULE_DIR$/../../target/task-temp-directory" />
+      <sourceFolder url="file://$MODULE_DIR$/../../src/main/resources" type="java-resource" />
+      <excludeFolder url="file://$MODULE_DIR$/../../target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="sbt: scala-sdk-3.3.1" level="project" />
     <orderEntry type="library" name="sbt: ch.qos.logback:logback-classic:1.4.7:jar" level="project" />
     <orderEntry type="library" name="sbt: ch.qos.logback:logback-core:1.4.7:jar" level="project" />
     <orderEntry type="library" name="sbt: com.fasterxml.jackson.core:jackson-annotations:2.12.3:jar" level="project" />
